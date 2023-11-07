@@ -34,9 +34,9 @@ class CompanyTest {
 	private static final LocalDate DATE3 = LocalDate.of(1980, 5, 3);
 	private static final LocalDate DATE4 = LocalDate.of(1990, 5, 3);
 	private static final LocalDate DATE5 = LocalDate.of(2000, 5, 3);
-	private static final String DEPARTMENT3 = "Managment";
+	private static final String DEPARTMENT3 = "dep3";
 	private static final long ID6 = 1000;
-	private static final String DEPARTMENT6 = "dep3";
+	private static final String DEPARTMENT6 = "depunknown";
 	Employee empl1 = new Employee(ID1, "name1", SALARY1, DEPARTMENT1, DATE1);
 	Employee empl2 = new Employee(ID2, "name2", SALARY2, DEPARTMENT1, DATE2);
 	Employee empl3 = new Employee(ID3, "name3", SALARY3, DEPARTMENT2, DATE3);
@@ -116,13 +116,29 @@ class CompanyTest {
 	@Test
 	//дз (получить массив со всеми и отсортировать)
 	void testGetAllEmployees() {
+		List<Employee> list =  company.getAllEmployees();
+		Employee[] actual = list.toArray(new Employee[] {});
+		Arrays.sort(actual);
+		assertArrayEquals(employees, actual);
+		
 		
 	}
 
 	@Test
 	//дз (3 диапазона как ниже)
 	void testGetEmployeesBySalary() {
-		fail("Not yet implemented");
+		List<Employee> listAll = company.getEmployeesBySalary(0, 10000);
+		Employee[] actualAll = listAll.toArray(new Employee[] {});
+		Arrays.sort(actualAll);
+		assertArrayEquals(employees, actualAll);
+		List<Employee> listEmpty = company.getEmployeesBySalary(9000, 10000);
+		assertTrue(listEmpty.isEmpty());
+		List<Employee> list2_3 = company.getEmployeesBySalary(SALARY1, SALARY3);
+		Employee[] actual2_3 = list2_3.toArray(new Employee[] {});
+		Employee[] expected2_3 = {empl2, empl3};
+		Arrays.sort(actual2_3);
+		assertArrayEquals(expected2_3, actual2_3);
+		
 	}
 
 	@Test
@@ -180,7 +196,9 @@ class CompanyTest {
 	}
 	private int getAge(LocalDate birthdate) {
 		int result = (int) ChronoUnit.YEARS.between(birthdate, LocalDate.now()); //в чем будет разница между данными (тут в годах между текущей и годом рождения)
+		return result;
 	}
+	
 	
 	
 	
