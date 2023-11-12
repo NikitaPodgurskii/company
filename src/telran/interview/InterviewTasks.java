@@ -83,5 +83,17 @@ public class InterviewTasks {
 		}
 		return res;
 	}
+	/**
+	 * Anagram of a string is another string containing all the symbols
+	 * from the string, but in different order (see the test cases)
+	 * @param string
+	 * @param anagram
+	 * @return true if the second parameter presents an anagram
+	 *  of the string from the first parameter, otherwise false
+	 */
+	public static boolean isAnagram(String string, String anagram) {
+		//TODO
+		return false;
+	}
 	
 }
