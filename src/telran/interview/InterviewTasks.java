@@ -92,8 +92,32 @@ public class InterviewTasks {
 	 *  of the string from the first parameter, otherwise false
 	 */
 	public static boolean isAnagram(String string, String anagram) {
-		//TODO
-		return false;
+		boolean res = false;
+		if(!string.equals(anagram) && string.length() == anagram.length()) {
+			HashMap<Character, Integer> mapOccurrences = getStringMap(string);
+			res = anagramCheck(anagram, mapOccurrences);
+		}
+		return res;
+	}
+	private static boolean anagramCheck(String anagram, HashMap<Character, Integer> mapOccurrences) {
+		boolean res = true;
+		char[] symbols = anagram.toCharArray();
+		int i = 0;
+		while (i < symbols.length && res) {
+			if(mapOccurrences.merge(symbols[i], -1, Integer::sum) < 0) {
+				res = false;
+			} else {
+				i++;
+			}
+		}
+		return res;
+	}
+	private static HashMap<Character, Integer> getStringMap(String string) {
+		HashMap<Character, Integer> res = new HashMap<>();
+		for(char symbol: string.toCharArray()) {
+			res.merge(symbol, 1, Integer::sum);
+		}
+		return res;
 	}
 	
 }
