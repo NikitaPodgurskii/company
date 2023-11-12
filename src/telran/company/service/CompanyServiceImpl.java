@@ -1,5 +1,6 @@
 package telran.company.service;
 
+import java.nio.channels.IllegalSelectorException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -27,8 +28,34 @@ public class CompanyServiceImpl implements CompanyService {
 	 *  returns reference to the being added Employee object
 	 */
 	public Employee hireEmployee(Employee empl) {
-		//TODO O[1]
-		return null;
+		long id = empl.id();
+		if(employeesMap.containsKey(id)){
+			throw new IllegalStateException("Employee alreade exists" + id);
+		}
+		employeesMap.put(id, empl);
+		addEmployeeSalary(empl);
+		addEmployeeAge(empl);
+		addEmployeeDepartment(empl);
+		return empl;
+	}
+
+	private void addEmployeeDepartment(Employee empl) {
+		String department = empl.department();
+		Set<Employee> set =  employeesDepartment.computeIfAbsent(department, k -> new HashSet<>());
+		set.add(empl);
+		
+	}
+
+	private void addEmployeeAge(Employee empl) {
+		LocalDate birthdate = empl.birthDate();
+		Set<Employee> set =  employeesAge.computeIfAbsent(birthdate, k -> new HashSet<>());
+		set.add(empl);
+		
+	}
+
+	private void addEmployeeSalary(Employee empl) {
+		Set<Employee> set =  employeesSalary.computeIfAbsent(empl.salary(), k -> new HashSet<>());//делает так, чтобы была одна и та же ссылка на сет, если такая зп уже есть или она новая
+		set.add(empl);
 	}
 
 	@Override
@@ -38,8 +65,43 @@ public class CompanyServiceImpl implements CompanyService {
 	 * the method must throw IllegalStateException
 	 */
 	public Employee fireEmployee(long id) {
-		// TODO Auto-generated method stub O[1]
+		Employee empl = employeesMap.remove(id);//убирает служащего только из 1 map
+		if(empl == null) {
+			throw new IllegalStateException("Employee not found" + id);
+		}
+		removeEmployeeDepartment(empl);
+		removeEmployeeSalary(empl);
+		removeEmployeeAge(empl);
 		return null;
+	}
+
+	private void removeEmployeeAge(Employee empl) {
+		LocalDate birthdate = empl.birthDate();
+		Set<Employee> set = employeesAge.get(birthdate);
+		set.remove(empl);//удаляет из сета по дате рождения
+		if(set.isEmpty()) {
+			employeesAge.remove(birthdate);//удалет из всего map если удалили последнего сотрудника
+		}
+	}
+
+	private void removeEmployeeSalary(Employee empl) {
+		int salary = empl.salary();
+		Set<Employee> set = employeesSalary.get(salary);
+		set.remove(empl);
+		if(set.isEmpty()) {
+			employeesSalary.remove(salary);
+		}
+		
+	}
+
+	private void removeEmployeeDepartment(Employee empl) {
+		String department = empl.department();
+		Set<Employee> set = employeesDepartment.get(department);
+		set.remove(empl);
+		if(set.isEmpty()) {
+			employeesDepartment.remove(department);
+		}
+		
 	}
 
 	@Override
@@ -49,8 +111,8 @@ public class CompanyServiceImpl implements CompanyService {
 	 * the method returns null
 	 */
 	public Employee getEmployee(long id) {
-		// TODO Auto-generated method stub O[1]
-		return null;
+		
+		return employeesMap.get(id);
 	}
 
 	@Override
@@ -59,7 +121,7 @@ public class CompanyServiceImpl implements CompanyService {
 	 * in the case none employees in the department, the method returns empty list
 	 */
 	public List<Employee> getEmployeesByDepartment(String department) {
-		// TODO Auto-generated method stub O[1]
+		
 		return null;
 	}
 
