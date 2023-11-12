@@ -28,6 +28,29 @@ public class InterviewTasks {
 	/**
 	 * 
 	 * @param ar array of integer numbers
+	 * @param sum integer number
+	 * @return true if the given array contains two numbers, the sum of which equals the given sum value
+	 */
+	public static boolean isSum2N2(int[] ar, int sum) {
+		int i = 1;
+		int j = 0;
+		boolean running = true;
+		while(i < ar.length && running) {
+			j = i - 1;
+			while(j >= 0 ) {
+				if(ar[j] + ar[i] == sum) {
+					running = false;
+					break;
+				}
+				j--;
+			}
+			i++;
+		}
+		return !running;
+	}
+	/**
+	 * 
+	 * @param ar array of integer numbers
 	 * @return maximal positive number having negative number with the same absolute value
 	 */
 	public static int getMaxPositiveWithNegativeValue (int ar[]) {
@@ -56,7 +79,7 @@ public class InterviewTasks {
 		//it uses Functional interface BiFunction
 		HashMap<String, Long> res = new HashMap<>();
 		for(String string: strings) {
-			res.merge(string, 1l, (a, b) -> a + b);
+			res.merge(string, 1l, Long::sum);
 		}
 		return res;
 	}
