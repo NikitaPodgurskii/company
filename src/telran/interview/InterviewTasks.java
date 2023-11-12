@@ -1,7 +1,8 @@
 package telran.interview;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.HashSet;
+import java.util.Map;
 
 public class InterviewTasks {
 /**
@@ -92,7 +93,11 @@ public class InterviewTasks {
 	 *  of the string from the first parameter, otherwise false
 	 */
 	public static boolean isAnagram(String string, String anagram) {
-		//TODO
+		if (string.length() != anagram.length()) {
+            return false;
+        }
+        Map<Character, Integer> charString = new HashMap<>();
+        Map<Character, Integer> charAnagram = new HashMap<>();
 		return false;
 	}
 	
