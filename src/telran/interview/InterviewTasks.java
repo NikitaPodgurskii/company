@@ -96,9 +96,25 @@ public class InterviewTasks {
 		if (string.length() != anagram.length()) {
             return false;
         }
-        Map<Character, Integer> charString = new HashMap<>();
-        Map<Character, Integer> charAnagram = new HashMap<>();
-		return false;
-	}
+		HashMap<Character, Integer> charString = new HashMap<>();
+		HashMap<Character, Integer> charAnagram = new HashMap<>();
+        char[] str = string.toCharArray();
+        char[] angr = anagram.toCharArray();
+        for(char c : str) {
+        	if (charString.containsKey(c)) {
+        	charString.put(c, c+1);
+        	} else {
+        		charString.put(c, 1);
+        	}
+        }
+        for(char c : angr) {
+        	if (charAnagram.containsKey(c)) {
+        	charAnagram.put(c, c+1);
+            } else {
+            	charAnagram.put(c, 1);
+        	}    
+        }
+    return charString.equals(charAnagram);
+}}
 	
-}
+	
