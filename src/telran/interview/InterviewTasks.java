@@ -115,6 +115,7 @@ public class InterviewTasks {
         	}    
         }
     return charString.equals(charAnagram);
-}}
+	}
+}
 	
 	
