@@ -1,8 +1,6 @@
 package telran.interview;
 
 import java.util.*;
-import java.util.HashSet;
-import java.util.Map;
 
 public class InterviewTasks {
 /**
@@ -92,6 +90,7 @@ public class InterviewTasks {
 	 * @return true if the second parameter presents an anagram
 	 *  of the string from the first parameter, otherwise false
 	 */
+	/*
 	public static boolean isAnagram(String string, String anagram) {
 		if (string.length() != anagram.length()) {
             return false;
@@ -116,6 +115,42 @@ public class InterviewTasks {
         }
     return charString.equals(charAnagram);
 	}
+	*/
+	public static boolean isAnagram(String string, String anagram) {
+		boolean res = false;
+		if(string.equals(anagram) && string.length() == anagram.length()) {
+			HashMap<Character, Integer> mapOccurences = getStringMap(string);
+			res = anagramCheck(anagram, mapOccurences);
+		}
+		return res;
+        }
+	
+
+	private static boolean anagramCheck(String anagram, HashMap<Character, Integer> mapOccurences) {
+		boolean res = true;
+		char[] symbols = anagram.toCharArray();
+		int i = 0;
+		while(i < symbols.length && res) {
+			if(mapOccurences.merge(symbols[i], -1, Integer::sum) < 0) {
+				res = false;
+			} else {
+				i++;
+			}
+		}
+		return res;
+	}
+	
+	private static HashMap<Character, Integer> getStringMap(String string) {
+		boolean res = false;
+		HashMap<Character, Integer> res = new HashMap<>();
+		for(char symbol: string.toCharArray()){
+			res.merge(symbol, 1, Integer::sum)
+		}
+		return null;
+	}
+	
+	
+	
 }
 	
 	
