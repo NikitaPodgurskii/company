@@ -46,5 +46,13 @@ class MyArrayTests {
 			}
 			
 		}
+		@Test
+		void testGetWrongIndex() {
+			assertNull(array.get(LENGTH));
+		}
+		@Test
+		void testSetWrongIndex() {
+			assertThrowsExactly(IndexOutOfBoundsException.class, ()->array.set(-1, OTHER_VALUE));
+		}
 
 }
