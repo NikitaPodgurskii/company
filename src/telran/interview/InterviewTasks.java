@@ -104,7 +104,7 @@ public class InterviewTasks {
 		char[] symbols = anagram.toCharArray();
 		int i = 0;
 		while (i < symbols.length && res) {
-			if(mapOccurrences.merge(symbols[i], -1, Integer::sum) < 0) {
+			if(mapOccurrences.compute(symbols[i], (k, v) -> v==null ? -1 : v - 1) < 0) {
 				res = false;
 			} else {
 				i++;
