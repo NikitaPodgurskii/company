@@ -31,7 +31,7 @@ public class MyArray {
 	 * @param index
 	 * @return value at given index or null if index is wrong
 	 */
-	public int get(int index) {
+	public Integer get(int index) {
 		//TODO
 		return -1;
 	}
